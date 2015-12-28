@@ -8,19 +8,21 @@
 </head>
 
 <body>
-	<div id="elm-lcbo">
-	</div>
+  <div id="elm-lcbo">
+  </div>
 </body>
 
 <script type="text/javascript">
 var div = document.getElementById("elm-lcbo");
-var main = Elm.embed(Elm.Main, div, {coordinates: {"lat": "", "long": ""}});
+var main = Elm.embed(Elm.Main, div, {coordinates: {"latitude": "", "longitude": ""}});
 function getCoordinates() {
-	if (navigator.geolocation) {
-    	navigator.geolocation.getCurrentPosition(function (position) {
-    		debugger;
-    		main.ports.coordinates.send({"lat": position.coords.latitude, "long": position.coords.longitude});
-    	});
+  if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        main.ports.coordinates.send({
+          "latitude": position.coords.latitude.toString(),
+          "longitude": position.coords.longitude.toString()
+        });
+      });
     }
 }
 getCoordinates();

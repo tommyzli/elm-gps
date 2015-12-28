@@ -17,6 +17,13 @@ type alias Model =
   , longitude: Maybe String
   }
 
+initial : Model
+initial =
+  { drinkChoice = Nothing
+  , latitude = Nothing
+  , longitude = Nothing
+  }
+
 
 -- Import events from JS
 --port coordinates : Signal { lat : String, long : String }

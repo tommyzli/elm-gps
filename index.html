@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Elm - LCBO</title>
+  <script type="text/javascript" src="elm.js"></script>
+</head>
+
+<body>
+	<div id="elm-lcbo">
+	</div>
+</body>
+
+<script type="text/javascript">
+var div = document.getElementById("elm-lcbo");
+var main = Elm.embed(Elm.Main, div, {coordinates: {"lat": "", "long": ""}});
+function getCoordinates() {
+	if (navigator.geolocation) {
+    	navigator.geolocation.getCurrentPosition(function (position) {
+    		debugger;
+    		main.ports.coordinates.send({"lat": position.coords.latitude, "long": position.coords.longitude});
+    	});
+    }
+}
+getCoordinates();
+</script>
+
+</html>

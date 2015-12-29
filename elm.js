@@ -11403,11 +11403,11 @@ Elm.StartApp.Simple.make = function (_elm) {
                                         ,Config: Config
                                         ,start: start};
 };
-Elm.Select = Elm.Select || {};
-Elm.Select.make = function (_elm) {
+Elm.Main = Elm.Main || {};
+Elm.Main.make = function (_elm) {
    "use strict";
-   _elm.Select = _elm.Select || {};
-   if (_elm.Select.values) return _elm.Select.values;
+   _elm.Main = _elm.Main || {};
+   if (_elm.Main.values) return _elm.Main.values;
    var _U = Elm.Native.Utils.make(_elm),
    $Basics = Elm.Basics.make(_elm),
    $Debug = Elm.Debug.make(_elm),
@@ -11416,32 +11416,59 @@ Elm.Select.make = function (_elm) {
    $List = Elm.List.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
    $Result = Elm.Result.make(_elm),
-   $Signal = Elm.Signal.make(_elm);
+   $Signal = Elm.Signal.make(_elm),
+   $StartApp$Simple = Elm.StartApp.Simple.make(_elm);
    var _op = {};
+   var maybeLocation = function (model) {
+      return A2($Html.div,
+      _U.list([]),
+      _U.list([function () {
+                 var _p0 = model.latitude;
+                 if (_p0.ctor === "Just") {
+                       return A2($Html.div,
+                       _U.list([]),
+                       _U.list([$Html.text(_p0._0)]));
+                    } else {
+                       return A2($Html.span,_U.list([]),_U.list([]));
+                    }
+              }()
+              ,function () {
+                 var _p1 = model.longitude;
+                 if (_p1.ctor === "Just") {
+                       return A2($Html.div,
+                       _U.list([]),
+                       _U.list([$Html.text(_p1._0)]));
+                    } else {
+                       return A2($Html.span,_U.list([]),_U.list([]));
+                    }
+              }()]));
+   };
    var maybeChoice = function (model) {
-      var _p0 = model.drinkChoice;
-      if (_p0.ctor === "Just") {
+      var _p2 = model.drinkChoice;
+      if (_p2.ctor === "Just") {
             return A2($Html.div,
             _U.list([]),
             _U.list([$Html.text(A2($Basics._op["++"],
             "You chose: ",
-            _p0._0))]));
+            _p2._0))]));
          } else {
             return A2($Html.span,_U.list([]),_U.list([]));
          }
    };
    var update = F2(function (action,model) {
-      var _p1 = action;
-      if (_p1.ctor === "Selected") {
-            return _U.update(model,{drinkChoice: $Maybe.Just(_p1._0)});
+      var _p3 = action;
+      if (_p3.ctor === "Selected") {
+            return _U.update(model,{drinkChoice: $Maybe.Just(_p3._0)});
          } else {
+            var _p4 = _p3._0;
             return _U.update(model,
-            {latitude: $Maybe.Just(_p1._0),longitude: $Maybe.Just(_p1._1)});
+            {latitude: $Maybe.Just(_p4.latitude)
+            ,longitude: $Maybe.Just(_p4.longitude)});
          }
    });
-   var Location = F2(function (a,b) {
-      return {ctor: "Location",_0: a,_1: b};
-   });
+   var Location = function (a) {
+      return {ctor: "Location",_0: a};
+   };
    var Selected = function (a) {
       return {ctor: "Selected",_0: a};
    };
@@ -11466,49 +11493,40 @@ Elm.Select.make = function (_elm) {
               ,A2($Html.button,
               _U.list([]),
               _U.list([$Html.text("Choose a drink")]))
-              ,maybeChoice(model)]));
+              ,maybeChoice(model)
+              ,maybeLocation(model)]));
    });
+   var initial = {drinkChoice: $Maybe.Nothing
+                 ,latitude: $Maybe.Nothing
+                 ,longitude: $Maybe.Nothing};
    var Model = F3(function (a,b,c) {
       return {drinkChoice: a,latitude: b,longitude: c};
    });
    var apiKey = "abc";
-   return _elm.Select.values = {_op: _op
-                               ,apiKey: apiKey
-                               ,Model: Model
-                               ,Selected: Selected
-                               ,Location: Location
-                               ,update: update
-                               ,view: view
-                               ,maybeChoice: maybeChoice};
-};
-Elm.Main = Elm.Main || {};
-Elm.Main.make = function (_elm) {
-   "use strict";
-   _elm.Main = _elm.Main || {};
-   if (_elm.Main.values) return _elm.Main.values;
-   var _U = Elm.Native.Utils.make(_elm),
-   $Basics = Elm.Basics.make(_elm),
-   $Debug = Elm.Debug.make(_elm),
-   $List = Elm.List.make(_elm),
-   $Maybe = Elm.Maybe.make(_elm),
-   $Result = Elm.Result.make(_elm),
-   $Select = Elm.Select.make(_elm),
-   $Signal = Elm.Signal.make(_elm),
-   $StartApp$Simple = Elm.StartApp.Simple.make(_elm);
-   var _op = {};
    var coordinates = Elm.Native.Port.make(_elm).inboundSignal("coordinates",
-   "{ lat : String, long : String }",
+   "{ latitude : String\n, longitude : String\n}",
    function (v) {
-      return typeof v === "object" && "lat" in v && "long" in v ? {_: {}
-                                                                  ,lat: typeof v.lat === "string" || typeof v.lat === "object" && v.lat instanceof String ? v.lat : _U.badPort("a string",
-                                                                  v.lat)
-                                                                  ,long: typeof v.long === "string" || typeof v.long === "object" && v.long instanceof String ? v.long : _U.badPort("a string",
-                                                                  v.long)} : _U.badPort("an object with fields `lat`, `long`",v);
+      return typeof v === "object" && "latitude" in v && "longitude" in v ? {_: {}
+                                                                            ,latitude: typeof v.latitude === "string" || typeof v.latitude === "object" && v.latitude instanceof String ? v.latitude : _U.badPort("a string",
+                                                                            v.latitude)
+                                                                            ,longitude: typeof v.longitude === "string" || typeof v.longitude === "object" && v.longitude instanceof String ? v.longitude : _U.badPort("a string",
+                                                                            v.longitude)} : _U.badPort("an object with fields `latitude`, `longitude`",
+      v);
    });
-   var main = $StartApp$Simple.start({model: {drinkChoice: $Maybe.Nothing
-                                             ,latitude: $Maybe.Nothing
-                                             ,longitude: $Maybe.Nothing}
-                                     ,view: $Select.view
-                                     ,update: $Select.update});
-   return _elm.Main.values = {_op: _op,main: main};
+   var location = A2($Signal.map,Location,coordinates);
+   var main = $StartApp$Simple.start({model: initial
+                                     ,view: view
+                                     ,update: update});
+   return _elm.Main.values = {_op: _op
+                             ,main: main
+                             ,location: location
+                             ,apiKey: apiKey
+                             ,Model: Model
+                             ,initial: initial
+                             ,Selected: Selected
+                             ,Location: Location
+                             ,update: update
+                             ,view: view
+                             ,maybeChoice: maybeChoice
+                             ,maybeLocation: maybeLocation};
 };

@@ -55,7 +55,6 @@ view address model =
     [ h1 [] [ a [ onClick address (Selected "beer")] [ text "Beer" ] ]
     , h1 [] [ a [ onClick address (Selected "wine") ] [ text "Wine" ] ]
     , h1 [] [ a [ onClick address (Selected "spirit") ] [ text "Spirits" ] ]
-    , button [] [ text "Choose a drink" ]
     , maybeChoice model
     , maybeLocation model
     ]

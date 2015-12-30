@@ -3,12 +3,10 @@ import StartApp exposing (start)
 import Effects exposing (Effects, Never)
 import Task
 import Html exposing (..)
-import Html.Attributes exposing (class, classList)
 import Html.Events exposing (onClick)
 import Http
-import Json.Decode as Json
-import Graphics.Element exposing (..)
 
+---- Main ----
 app =
   start
     { init = initial
@@ -27,6 +25,7 @@ port tasks =
 port coordinates : Signal { latitude : String, longitude : String }
 result : Signal Action
 result = Signal.map GotLocation coordinates
+
 
 ---- MODEL ----
 
@@ -57,6 +56,7 @@ update action model =
       , getClosestStore model
       )
 
+-- TODO: implement
 getClosestStore : { latitude: String, longitude: String } -> Effects Action
 getClosestStore _ = Effects.none
 

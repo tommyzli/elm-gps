@@ -1,77 +1,69 @@
-import StartApp.Simple exposing (start)
+import StartApp exposing (start)
 
+import Effects exposing (Effects, Never)
+import Task
 import Html exposing (..)
 import Html.Attributes exposing (class, classList)
 import Html.Events exposing (onClick)
+import Http
+import Json.Decode as Json
 import Graphics.Element exposing (..)
 
+app =
+  start
+    { init = initial
+    , update = update
+    , view = view
+    , inputs = [result]
+    }
 
-main =
-  start { model = initial, view = view, update = update }
+main = app.html
+
+port tasks : Signal (Task.Task Never ())
+port tasks =
+  app.tasks
+
 
 port coordinates : Signal { latitude : String, longitude : String }
-location = Signal.map update (Location coordinates)
-
-
----- CONSTANTS ----
-apiKey : String
-apiKey = "abc"
-
+result : Signal Action
+result = Signal.map GotLocation coordinates
 
 ---- MODEL ----
 
 type alias Model =
-  { drinkChoice: Maybe String
-  , latitude: Maybe String
-  , longitude: Maybe String
+  { latitude: String
+  , longitude: String
   }
 
-initial : Model
+initial : (Model, Effects Action)
 initial =
-  { drinkChoice = Nothing
-  , latitude = Nothing
-  , longitude = Nothing
-  }
+  ( { latitude = ""
+    , longitude = ""
+    }
+  , Effects.none
+  )
 
 
 ---- UPDATE ----
 
 type Action
-  = Selected String
-  | Location { latitude: String, longitude: String}
+  = GotLocation Model
     
-update : Action -> Model -> Model
+update : Action -> Model -> (Model, Effects Action)
 update action model =
   case action of
-    Selected choice -> { model | drinkChoice = Just choice }
-    Location coordinates -> { model | latitude = Just coordinates.latitude, longitude = Just coordinates.longitude }
+    GotLocation coords -> 
+      ( { model | latitude = coords.latitude, longitude = coords.longitude }
+      , getClosestStore model
+      )
 
+getClosestStore : { latitude: String, longitude: String } -> Effects Action
+getClosestStore _ = Effects.none
 
 ---- VIEW ----
 
 view : Signal.Address Action -> Model -> Html
 view address model =
   div []
-    [ h1 [] [ a [ onClick address (Selected "beer")] [ text "Beer" ] ]
-    , h1 [] [ a [ onClick address (Selected "wine") ] [ text "Wine" ] ]
-    , h1 [] [ a [ onClick address (Selected "spirit") ] [ text "Spirits" ] ]
-    , maybeChoice model
-    , maybeLocation model
+    [ div [] [ text ("Coordinates " ++ model.latitude ++ ", " ++ model.longitude) ]
     ]
-    
-maybeChoice : Model -> Html
-maybeChoice model =
-  case model.drinkChoice of
-    Just choice -> div [] [ text ("You chose: " ++ choice) ]
-    Nothing -> span [] []
-
-maybeLocation: Model -> Html
-maybeLocation model =
-  div []
-  [ case model.latitude of
-    Just latitude -> div [] [ text latitude ]
-    Nothing -> span [] []
-  , case model.longitude of
-    Just longitude -> div [] [ text longitude ]
-    Nothing -> span [] []
-  ]

@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
-    "summary": "LCBO interface",
-    "repository": "https://github.com/user/project.git",
+    "summary": "GPS coordinates",
+    "repository": "https://github.com/tommyzli/elm-gps.git",
     "license": "BSD3",
     "source-directories": [
         "."

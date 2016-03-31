@@ -26,11 +26,11 @@ init =
 
 type Action
   = GotLocation { latitude: String, longitude: String }
-    
+
 update : Action -> Model -> (Model, Effects Action)
 update action model =
   case action of
-    GotLocation coords -> 
+    GotLocation coords ->
       ( { model | latitude = coords.latitude, longitude = coords.longitude }
       , getClosestStore model
       )

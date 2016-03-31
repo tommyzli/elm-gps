@@ -3,17 +3,17 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Elm - LCBO</title>
+  <title>Elm - GPS</title>
   <script type="text/javascript" src="elm.js"></script>
 </head>
 
 <body>
-  <div id="elm-lcbo">
+  <div id="elm-gps">
   </div>
 </body>
 
 <script type="text/javascript">
-var div = document.getElementById("elm-lcbo");
+var div = document.getElementById("elm-gps");
 var main = Elm.embed(Elm.Main, div, {coordinates: {"latitude": "", "longitude": ""}});
 function getCoordinates() {
   if (navigator.geolocation) {

@@ -10475,16 +10475,16 @@ Elm.GPS.make = function (_elm) {
       _U.list([]),
       _U.list([$Html.text(A2($Basics._op["++"],"Coordinates ",A2($Basics._op["++"],model.latitude,A2($Basics._op["++"],", ",model.longitude))))]))]));
    });
-   var getClosestStore = function (_p0) {    return $Effects.none;};
+   var receivedLocation = function (_p0) {    return $Effects.none;};
    var update = F2(function (action,model) {
       var _p1 = action;
       var _p2 = _p1._0;
-      return {ctor: "_Tuple2",_0: _U.update(model,{latitude: _p2.latitude,longitude: _p2.longitude}),_1: getClosestStore(model)};
+      return {ctor: "_Tuple2",_0: _U.update(model,{latitude: _p2.latitude,longitude: _p2.longitude}),_1: receivedLocation(model)};
    });
    var GotLocation = function (a) {    return {ctor: "GotLocation",_0: a};};
    var init = {ctor: "_Tuple2",_0: {latitude: "",longitude: ""},_1: $Effects.none};
    var Model = F2(function (a,b) {    return {latitude: a,longitude: b};});
-   return _elm.GPS.values = {_op: _op,Model: Model,init: init,GotLocation: GotLocation,update: update,getClosestStore: getClosestStore,view: view};
+   return _elm.GPS.values = {_op: _op,Model: Model,init: init,GotLocation: GotLocation,update: update,receivedLocation: receivedLocation,view: view};
 };
 Elm.Main = Elm.Main || {};
 Elm.Main.make = function (_elm) {

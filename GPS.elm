@@ -32,12 +32,11 @@ update action model =
   case action of
     GotLocation coords ->
       ( { model | latitude = coords.latitude, longitude = coords.longitude }
-      , getClosestStore model
+      , receivedLocation model
       )
 
--- TODO: implement
-getClosestStore : { latitude: String, longitude: String } -> Effects Action
-getClosestStore _ = Effects.none
+receivedLocation : { latitude: String, longitude: String } -> Effects Action
+receivedLocation _ = Effects.none
 
 ---- VIEW ----
 
